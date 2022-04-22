@@ -1,0 +1,274 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "import streamlit as st\nimport pandas as pd\nimport shutil\n\n# Give your app a title\nst.title('Get the zip codes')\n\n# Add a short description\nst.write('This short app downloads a CSV containing the list of cities associated with their zip code, and returns the zip codes of the city you submitted.')\n\n# Upload the CSV file\nuploaded_file = st.file_uploader(\"Upload the CSV\", type=\"csv\")\n\n# Create a form to manually enter the name of a city\nform = st.form(key=\"zip_code\")\ncity = form.text_input(label=\"Enter the name of a city\")\nsubmit = form.form_submit_button(label=\"Get the zip codes\")\n\n# Function that returns the following index:\n# {city: [*zip_code]}\n# Since lots of cities have the same name, the length of the list of the zip codes can be greater than 1\ndef create_index(df):\n\tfeature_dict = pd.DataFrame.from_dict({\n        \"zip_code\": df[\"Code Postal\"].values,\n        \"city\": df[\"Commune\"].values}).groupby(\"city\")['zip_code'].apply(set)\n\treturn feature_dict.to_dict()\n\n# Function that returns the list of the zip code(s) given a city\ndef get_zip_codes(index, city):\n    try:\n        zip_codes = index[city]\n        return zip_codes \n    except:\n        return None\n\n# Check if you have uploaded a file\nif uploaded_file is not None:\n\t# Read the file\n    with open(\"cities.csv\", \"wb\") as buffer:\n        shutil.copyfileobj(uploaded_file, buffer)\n\n    # Check if you have submitted a city\n    if submit:\n        # Read the CSV as a dataframe\n        df = pd.read_csv(\"cities.csv\", sep=';', header=0)\n        # Create the index\n        index = create_index(df) \n        # Get the list of zip codes\n        zip_codes = get_zip_codes(index, city.upper())\n\n        # Write the results\n        st.header(\"Result: \")\n        if zip_codes is None:\n            st.write('No zip codes found! Check the spelling.')\n        else:\n            st.write(zip_codes)",
+			"file": "app.py",
+			"file_size": 1855,
+			"file_write_time": 132944880138481956,
+			"settings":
+			{
+				"buffer_size": 1855,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					1,
+					1,
+					"paste",
+					null,
+					"AQAAAAAAAAAAAAAAHwcAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					2,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AwAAAB8HAAAAAAAAIAcAAAAAAAAAAAAAIAcAAAAAAAAoBwAAAAAAAAAAAAAoBwAAAAAAACwHAAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAfBwAAAAAAAB8HAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					3,
+					1,
+					"paste",
+					null,
+					"AQAAACwHAAAAAAAAPwcAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAsBwAAAAAAACwHAAAAAAAAAAAAAAAA8L8"
+				]
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/paulpignal/Desktop/data-marketlab/marketlab/app/app/lab_modules/hello_world.py",
+		"/Users/paulpignal/Desktop/Papernest/sql_business_queries/sql/ops_tables/ops_datamart_core_opportunity.sql",
+		"/Users/paulpignal/Desktop/Papernest/sql_business_queries/sql/data_tables/datamart_daf_prospect.sql",
+		"/Users/paulpignal/Desktop/Papernest/sql_business_queries/sql/data_tables/prep_contract.sql",
+		"/Users/paulpignal/Desktop/Papernest/sql_business_queries/sql/data_tables/datamart_contract_prospect.sql",
+		"/Users/paulpignal/Desktop/Papernest/sql_business_queries/sql/data_tables/prep_cleaned_app_contract_mortgage.sql",
+		"/Users/paulpignal/Desktop/Papernest/sql_business_queries/sql/bi_dashboard/dashboard_sea_marketshare.sql",
+		"/Users/paulpignal/Downloads/response_allomedia.json"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 98.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app.py",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1855,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1855,
+								1855
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 50.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "app.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"hello",
+				"marketlab/app/app/lab_modules/hello_world.py"
+			],
+			[
+				"ops_datamart_core_opportunity",
+				"sql/ops_tables/ops_datamart_core_opportunity.sql"
+			],
+			[
+				"prep_contract",
+				"sql/data_tables/prep_contract.sql"
+			],
+			[
+				"datamart_contract_prospect",
+				"sql/data_tables/datamart_contract_prospect.sql"
+			],
+			[
+				"datamart_daf_prospect",
+				"sql/data_tables/datamart_daf_prospect.sql"
+			],
+			[
+				"datamart_daf",
+				"sql/data_tables/datamart_daf_prospect.sql"
+			],
+			[
+				"das",
+				"sql/bi_dashboard/dashboard_sea_marketshare.sql"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 488.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
